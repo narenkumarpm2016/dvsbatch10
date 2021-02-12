@@ -1,7 +1,12 @@
-FROM devops-base:v1
-EXPOSE 8080
-WORKDIR /opt/application/
-COPY . .
-RUN mvn clean install && cp ./target/myweb-*.war /opt/tomcat/webapps/myapp.war
-CMD ["/opt/tomcat/bin/catalina.sh", "run"]
+FROM node:10
 
+WORKDIR /app
+
+COPY . .
+
+RUN npm install \
+    && npm run-script build
+
+EXPOSE 3000
+
+CMD ["npm","start"]
